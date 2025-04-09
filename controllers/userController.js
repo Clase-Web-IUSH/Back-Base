@@ -19,8 +19,22 @@ const createUser = async (req,res)=>{
     }
 }
 
+const deleteUser = async (req,res)=>{
+    try{
+        const user = await User.findByPk(req.params.id)
+        if(!user){
+            return res.status(404).json({error: 'Usuario no encontrado'})
+        }
+        await user.destroy()
+        res.json({message: 'Usuario eliminado'})
+    }catch(error){
+        res.status(500).json({error: error.message})
+    }
+}
+
 
 module.exports = {
     getAllUsers,
-    createUser
+    createUser,
+    deleteUser
 }
